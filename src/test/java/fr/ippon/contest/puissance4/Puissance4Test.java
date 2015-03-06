@@ -77,7 +77,7 @@ public class Puissance4Test {
 		try {
 			jeu.jouer(2);
 			fail("colonne pleine.");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalStateException e) {
 			log.info(e.getMessage());
 		}
 		try {
