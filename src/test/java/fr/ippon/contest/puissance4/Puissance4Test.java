@@ -61,9 +61,9 @@ public class Puissance4Test {
 		 					{'-', 'J', 'R', 'R', 'J', '-', '-'},
 		 					{'R', 'J', 'J', 'J', 'R', 'R', '-'}};
 		jeu.chargerJeu(grille, 'R');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.EN_COURS);
-		assertTrue(jeu.getTour()=='R');
-		assertTrue(jeu.getOccupant(4, 4) == 'J');
+		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
+		assertEquals('R', jeu.getTour());
+		assertEquals('J', jeu.getOccupant(4, 4));
 	}
 	@Test
 	public void testJouer() {
