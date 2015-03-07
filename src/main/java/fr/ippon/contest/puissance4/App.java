@@ -20,6 +20,7 @@ public class App {
 					jeu.jouer(col);
 				} catch (Exception e) {
 					System.err.println("Erreur - " + e.getMessage());
+					scanner.next();
 				}
 			}
 			afficherResultat(jeu);
