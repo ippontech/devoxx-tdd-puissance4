@@ -93,9 +93,9 @@ public class Puissance4Test {
 			log.info(e.getMessage());
 		}
 		jeu.jouer(3);
-		assertTrue(jeu.getEtatJeu()==EtatJeu.EN_COURS);
-		assertTrue(jeu.getTour()=='J');
-		assertTrue(jeu.getOccupant(2, 3) == 'R');
+		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
+		assertEquals('J', jeu.getTour());
+		assertEquals('R', jeu.getOccupant(2, 3));
 	}
 	@Test
 	public void testChargerLigneGagnante() {
@@ -106,7 +106,7 @@ public class Puissance4Test {
 				 			{'-', 'R', 'J', 'R', 'R', 'J', 'R'},
 				 			{'J', 'R', 'J', 'J', 'R', 'J', 'R'}};
 		jeu.chargerJeu(grille, 'R');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.JAUNE_GAGNE);
+		assertEquals(EtatJeu.JAUNE_GAGNE, jeu.getEtatJeu());
 	}
 	@Test
 	public void testChargerColonneGagnante() {
@@ -117,7 +117,7 @@ public class Puissance4Test {
 				 			{'-', '-', 'J', 'R', 'R', 'R', '-'},
 				 			{'-', '-', 'J', 'R', 'R', 'J', '-'}};
 		jeu.chargerJeu(grille, 'R');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.JAUNE_GAGNE);
+		assertEquals(EtatJeu.JAUNE_GAGNE, jeu.getEtatJeu());
 	}
 	@Test
 	public void testChargerDiagonaleGagnante() {
@@ -128,8 +128,8 @@ public class Puissance4Test {
 		 					{'R', 'J', 'R', 'R', 'J', '-', '-'},
 		 					{'R', 'J', 'J', 'J', 'R', 'R', '-'}};
 		jeu.chargerJeu(grille, 'J');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.ROUGE_GAGNE);
-		
+		assertEquals(EtatJeu.ROUGE_GAGNE, jeu.getEtatJeu());
+
 		char [][] grille2 = {{'-', '-', '-', '-', '-', '-', '-'},
 							 {'R', 'R', 'R', 'J', '-', '-', 'R'},
 							 {'J', 'J', 'J', 'R', 'J', 'R', 'J'},
@@ -137,7 +137,7 @@ public class Puissance4Test {
 							 {'R', 'J', 'R', 'R', 'R', 'J', 'R'},
 							 {'R', 'J', 'J', 'R', 'R', 'J', 'J'}};
 		jeu.chargerJeu(grille2, 'J');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.ROUGE_GAGNE);
+		assertEquals(EtatJeu.ROUGE_GAGNE, jeu.getEtatJeu());
 	}
 	@Test
 	public void testjouerLigneGagnante() {
@@ -148,9 +148,9 @@ public class Puissance4Test {
 				 			{'-', '-', 'J', 'R', 'R', 'R', '-'},
 				 			{'-', '-', 'J', 'R', 'R', 'J', 'J'}};
 		jeu.chargerJeu(grille, 'R');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.EN_COURS);
+		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
 		jeu.jouer(6);
-		assertTrue(jeu.getEtatJeu()==EtatJeu.ROUGE_GAGNE);
+		assertEquals(EtatJeu.ROUGE_GAGNE, jeu.getEtatJeu());
 	}
 	@Test
 	public void testJouerColonneGagnante() {
@@ -161,9 +161,9 @@ public class Puissance4Test {
 				 			{'-', 'R', 'R', 'J', 'J', '-', '-'},
 				 			{'R', 'J', 'R', 'R', 'J', '-', '-'}};
 		jeu.chargerJeu(grille, 'J');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.EN_COURS);
+		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
 		jeu.jouer(2);
-		assertTrue(jeu.getEtatJeu()==EtatJeu.JAUNE_GAGNE);
+		assertEquals(EtatJeu.JAUNE_GAGNE, jeu.getEtatJeu());
 	}
 	@Test
 	public void testJouerDiagonaleGagnante() {
@@ -174,9 +174,9 @@ public class Puissance4Test {
 				 			 {'J', 'R', 'R', 'J', 'J', '-', '-'},
 				 			 {'R', 'J', 'R', 'R', 'J', '-', '-'}};
 		jeu.chargerJeu(grille1, 'J');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.EN_COURS);
+		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
 		jeu.jouer(1);
-		assertTrue(jeu.getEtatJeu()==EtatJeu.JAUNE_GAGNE);
+		assertEquals(EtatJeu.JAUNE_GAGNE, jeu.getEtatJeu());
 		
 		char [][] grille2 = {{'-', '-', '-', '-', '-', '-', '-'},
 				 			 {'-', '-', '-', '-', '-', '-', '-'},
@@ -185,9 +185,9 @@ public class Puissance4Test {
 				 			 {'-', '-', 'R', 'J', 'J', 'J', '-'},
 				 			 {'-', 'R', 'R', 'J', 'J', 'R', '-'}};
 		jeu.chargerJeu(grille2, 'R');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.EN_COURS);
+		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
 		jeu.jouer(4);
-		assertTrue(jeu.getEtatJeu()==EtatJeu.ROUGE_GAGNE);
+		assertEquals(EtatJeu.ROUGE_GAGNE, jeu.getEtatJeu());
 	}
 	@Test
 	public void testJouerNul() {
@@ -198,9 +198,9 @@ public class Puissance4Test {
 							{'J', 'J', 'R', 'R', 'J', 'J', 'J'},
 							{'R', 'J', 'J', 'J', 'R', 'R', 'R'}};
 		jeu.chargerJeu(grille, 'J');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.EN_COURS);
+		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
 		jeu.jouer(1);
-		assertTrue(jeu.getEtatJeu()==EtatJeu.MATCH_NUL);
+		assertEquals(EtatJeu.MATCH_NUL, jeu.getEtatJeu());
 	}
 	@Test
 	public void testChargerNul() {
@@ -211,6 +211,6 @@ public class Puissance4Test {
 							{'J', 'J', 'R', 'R', 'J', 'J', 'J'},
 							{'R', 'J', 'J', 'J', 'R', 'R', 'R'}};
 		jeu.chargerJeu(grille, 'J');
-		assertTrue(jeu.getEtatJeu()==EtatJeu.MATCH_NUL);
+		assertEquals(EtatJeu.MATCH_NUL, jeu.getEtatJeu());
 	}
 }
