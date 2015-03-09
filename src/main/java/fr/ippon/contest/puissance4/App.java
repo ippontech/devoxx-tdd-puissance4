@@ -1,6 +1,7 @@
 package fr.ippon.contest.puissance4;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import fr.ippon.contest.puissance4.Puissance4.EtatJeu;
 
@@ -18,9 +19,11 @@ public class App {
 				try {
 					int col = scanner.nextInt();
 					jeu.jouer(col);
+				} catch (InputMismatchException ime) {
+					String line = scanner.nextLine();
+					System.err.println("Erreur, veuillez entrer un entier plutôt que: " + line);      
 				} catch (Exception e) {
 					System.err.println("Erreur - " + e.getMessage());
-					scanner.next();
 				}
 			}
 			afficherResultat(jeu);
