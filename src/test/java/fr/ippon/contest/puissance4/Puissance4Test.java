@@ -1,8 +1,11 @@
 package fr.ippon.contest.puissance4;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.apache.log4j.Logger;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.ippon.contest.puissance4.Puissance4.EtatJeu;
@@ -11,7 +14,12 @@ public class Puissance4Test {
 
 	private static final Logger log = Logger.getLogger(Puissance4Test.class);
 
-	private Puissance4 jeu = new Puissance4Impl();
+	private static Puissance4StatsDecorator jeu;
+	
+	@BeforeClass
+	public static void initTests() {
+		jeu = new Puissance4StatsDecorator(new Puissance4Impl());
+	}
 
 	@Test
 	public void testsErreursChargerJeu() {
@@ -173,8 +181,10 @@ public class Puissance4Test {
 				 			 {'-', 'R', 'J', 'R', '-', '-', '-'},
 				 			 {'J', 'R', 'R', 'J', 'J', '-', '-'},
 				 			 {'R', 'J', 'R', 'R', 'J', '-', '-'}};
+
 		jeu.chargerJeu(grille1, 'J');
 		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
+		
 		jeu.jouer(1);
 		assertEquals(EtatJeu.JAUNE_GAGNE, jeu.getEtatJeu());
 		
@@ -184,8 +194,10 @@ public class Puissance4Test {
 				 			 {'-', '-', 'R', 'R', 'R', 'J', '-'},
 				 			 {'-', '-', 'R', 'J', 'J', 'J', '-'},
 				 			 {'-', 'R', 'R', 'J', 'J', 'R', '-'}};
+		
 		jeu.chargerJeu(grille2, 'R');
 		assertEquals(EtatJeu.EN_COURS, jeu.getEtatJeu());
+		
 		jeu.jouer(4);
 		assertEquals(EtatJeu.ROUGE_GAGNE, jeu.getEtatJeu());
 	}
@@ -212,5 +224,10 @@ public class Puissance4Test {
 							{'R', 'J', 'J', 'J', 'R', 'R', 'R'}};
 		jeu.chargerJeu(grille, 'J');
 		assertEquals(EtatJeu.MATCH_NUL, jeu.getEtatJeu());
+	}
+	
+	@AfterClass
+	public static void afficherStatistiques() {
+		jeu.printStats();
 	}
 }
