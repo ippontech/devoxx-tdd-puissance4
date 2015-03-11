@@ -1,14 +1,8 @@
 package fr.ippon.contest.puissance4;
 
-import org.apache.log4j.Logger;
 
-import java.util.*;
-
-public class Puissance4StatsDecorator implements Puissance4 {
-	/**
-	 * LOGGER.
-	 */
-	private final static Logger LOG = Logger.getLogger("Puissance4");
+public class Puissance4StatsDecorator extends StatsDecorator implements Puissance4 {
+	
 	/*
 	 * Constantes representant le nom des méthodes de l'API.
 	 */
@@ -23,84 +17,49 @@ public class Puissance4StatsDecorator implements Puissance4 {
 	 * Instance à décorer
 	 */
 	private Puissance4 jeu;
-	/**
-	 * Map stockant les temps d'exécution pour chaque méthode de l'API.
-	 */
-	private Map<String, List<Long>> statsExec;
+	
 
 	public Puissance4StatsDecorator(Puissance4 jeuADecorer) {
 		jeu = jeuADecorer;
-		statsExec = new HashMap<String, List<Long>>();
 	}
 
 	@Override
-	public synchronized void nouveauJeu() {
-		long top = System.nanoTime();
-		jeu.nouveauJeu();
-		collectStats(NOUVEAU_JEU, top);
+	public void nouveauJeu() {
+		collectMethodStats(NOUVEAU_JEU, () -> { jeu.nouveauJeu(); });
 	}
 
 	@Override
-	public synchronized void chargerJeu(char[][] grille, char tour) {
-		long top = System.nanoTime();
-		jeu.chargerJeu(grille, tour);
-		collectStats(CHARGER_JEU, top);
+	public void chargerJeu(char[][] grille, char tour) {
+		collectBiConsumerStats(CHARGER_JEU, (g, t) -> { 
+			jeu.chargerJeu(g,t); 
+		}, grille, tour);
 	}
 
 	@Override
-	public synchronized EtatJeu getEtatJeu() {
-		long top = System.nanoTime();
-		EtatJeu etat = jeu.getEtatJeu();
-		collectStats(ETAT_JEU, top);
-		return etat;
+	public EtatJeu getEtatJeu() {
+		return collectSupplierStats(ETAT_JEU, () -> {
+			return jeu.getEtatJeu();
+		});
 	}
 
 	@Override
-	public synchronized char getTour() {
-		long top = System.nanoTime();
-		char tour = jeu.getTour();
-		collectStats(TOUR, top);
-		return tour;
+	public char getTour() {
+		return collectSupplierStats(TOUR, () -> {
+			return jeu.getTour();
+		});
 	}
 
 	@Override
-	public synchronized char getOccupant(int ligne, int colonne) {
-		long top = System.nanoTime();
-		char occupant = jeu.getOccupant(ligne, colonne);
-		collectStats(OCCUPANT, top);
-		return occupant;
+	public char getOccupant(int ligne, int colonne) {
+		return collectBiFunctionStats(OCCUPANT, (l, c) -> {
+			return jeu.getOccupant(l, c);
+		}, ligne, colonne);
 	}
 
 	@Override
-	public synchronized void jouer(int colonne) {
-		long top = System.nanoTime();
-		jeu.jouer(colonne);
-		collectStats(JOUER, top);
-	}
-	/**
-	 * Fonction appellée pour la maj des stats d'une méthode
-	 * 
-	 * @param methodName nom de la méthode qui a été appelée
-	 * @param top		 top donné avant l'appel par System.nanoTime()
-	 */
-	private void collectStats(String methodName, long top) {
-		if (statsExec.containsKey(methodName)) {
-			statsExec.get(methodName).add(System.nanoTime() - top);
-		} else {
-			List<Long> execTimes = new ArrayList<Long>();
-			execTimes.add(System.nanoTime() - top);
-			statsExec.put(methodName, execTimes);
-		}
-	}
-
-	public void printStats() {
-		if (LOG.isDebugEnabled()) {
-			synchronized (statsExec) {
-				for (String key : statsExec.keySet()) {
-					List<Long> statsMethode = statsExec.get(key);
-					LOG.debug(key + " : " + statsMethode.size() + " appels, de durée moyenne " + Math.round(statsMethode.stream().mapToLong(x -> x).average().getAsDouble()) + " ns");
-				}
-			}
-		}
+	public void jouer(int colonne) {
+		collectConsumerStats(JOUER, c -> { 
+			jeu.jouer(c); 
+		}, colonne);
 	}
 }
